@@ -53,7 +53,7 @@ class Cell:
     def link_count(self):
         ''' Return the number of cells that we are connected to.'''
         i=0
-        for item in self.links:
+        for item in self.links.values():
             if item==True:
                 i=i+1
         return i
@@ -148,9 +148,10 @@ class Grid:
             one other cell).
         '''
         result=[]
-        for item in self.grid:
-            if item.link_count==1:
-                result.append(item)
+        for i in range(self.num_rows):
+            for j in range(self.num_columns):
+                if self.grid[i][j].link_count()==1:
+                    result.append(self.grid[i][j])
         return result
                             
     def each_cell(self):
