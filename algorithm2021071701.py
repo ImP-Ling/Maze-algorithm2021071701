@@ -15,7 +15,7 @@ def main():
     marker=False
     frames=0
     while running:
-        clock.tick(144)
+        clock.tick(10)
         marker=False
         for event in pygame.event.get():
             #if event.type == pygame.QUIT:
@@ -82,6 +82,13 @@ def display_grid(g, markup, screen):
                 if value == '*':  # Path marker
                     pygame.draw.circle(screen,
                                        (150,80,50),
+                                       (cell_x+15,cell_y+15),
+                                       7,  #radius
+                                       0)  #filled
+ 
+                if value == '-':  # Path marker
+                    pygame.draw.circle(screen,
+                                       (255,255,255),
                                        (cell_x+15,cell_y+15),
                                        7,  #radius
                                        0)  #filled

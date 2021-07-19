@@ -339,8 +339,30 @@ class ShortestPathMarkup(DijkstraMarkup):
     def __init__(self, grid, start_cell, goal_cell, 
                  path_marker='*', non_path_marker=' '):
         super().__init__(grid, start_cell)
+        path=[]
+        path.append(goal_cell)
+        i=None
+        i_item=goal_cell
+        print(self.marks)
+        while(i!=0):
+            i=9999
+            temp=None
+            for item in i_item.neighbors():
+                if i_item.links[item]:
+                    a=self.marks[item]
+                    if a<i:
+                        i=a
+                        temp=item
+            i_item=temp
+            path.append(i_item)
+            print("path to {0}".format(i_item))
+        for item in path:
+            self.marks[item]=path_marker
+        self.marks[path[0]]="-"
+        self.marks[path[len(path)-1]]="-"
+        print("finished Shortest Path Markup in len: {0}".format(len(path)))
         
-        pass
+
 
 class LongestPathMarkup(ShortestPathMarkup):
     ''' Create a markup with the longest path in the graph marked.
