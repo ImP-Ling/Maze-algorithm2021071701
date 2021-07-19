@@ -606,6 +606,11 @@ def recursive_backtracker(grid, start_cell=None):
     grid.unlink_all()
     while(len(visited)<=grid.size()):
         if len(visited)==grid.size():
+            #检查是否有重复
+            for item in visited:
+                i=visited.count(item)
+                if i>1:
+                    print("{0}has repeated for {1}times".format(item,i))
             break
         #redo=True
         print("this loop:{0}".format(stack[i]))
@@ -615,16 +620,16 @@ def recursive_backtracker(grid, start_cell=None):
         for item in visited:
                 if stack[i].north == item or stack[i].north==None:
                     N=True
-                    continue
+                    
                 if stack[i].south == item or stack[i].south==None:
                     S=True
-                    continue
+                    
                 if stack[i].east == item or stack[i].east==None:
                     E=True
-                    continue
+                    
                 if stack[i].west == item or stack[i].west==None:
                     W=True
-                    continue
+                    
         if N==True and S==True and E==True and W==True:
             print("popped stack{0}".format(stack[i]))
             stack.pop(i)                    
@@ -638,19 +643,19 @@ def recursive_backtracker(grid, start_cell=None):
         #redo=False
         r=random.randint(1,4)
         i=len(stack)-1
-        if(r==1 and stack[i].north!=None and N==False):
+        if(r==1 and N==False):
             stack.append(stack[i].north)
             visited.append(stack[i].north)
             stack[i].link(stack[i].north)
-        elif(r==2 and stack[i].south!=None and S==False):
+        elif(r==2 and S==False):
             stack.append(stack[i].south)
             visited.append(stack[i].south)
             stack[i].link(stack[i].south)
-        elif(r==3 and stack[i].east!=None and E==False):
+        elif(r==3 and E==False):
             stack.append(stack[i].east)
             visited.append(stack[i].east)
             stack[i].link(stack[i].east)
-        elif(r==4 and stack[i].west!=None and W==False):
+        elif(r==4 and W==False):
             stack.append(stack[i].west)
             visited.append(stack[i].west)
             stack[i].link(stack[i].west)
