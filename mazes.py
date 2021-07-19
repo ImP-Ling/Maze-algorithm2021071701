@@ -267,7 +267,51 @@ class DijkstraMarkup(Markup):
         ''' Execute the algorithm and store each cell's value in self.marks[]
         '''
         super().__init__(grid, default)
-        pass
+        self.root_cell=root_cell
+        self.algorithm()
+
+
+    def algorithm(self):
+        self.set_item_at(self.root_cell.row,self.root_cell.column,0)
+        visited=[]
+        frontier=[]
+        frontier.append(self.root_cell)
+        visited.append(self.root_cell)
+        count=0
+        while len(visited)<=self.grid.size():
+            if len(visited)==self.grid.size():
+                break
+            a=999999
+            for item in frontier:
+                i=self.marks.get(item)
+                if i<=a:
+                    a=i
+                    c=item
+            frontier.remove(c)
+            print("popped:{0} at value of {1}".format(c,a))
+            if visited.count(c.north)==0 and c.north!=None and c.links.get(c.north)==True:
+                visited.append(c.north)
+                self.marks[c.north]=a+1
+                frontier.append(c.north)
+
+            if visited.count(c.south)==0 and c.south!=None and c.links.get(c.south)==True:
+                visited.append(c.south)
+                self.marks[c.south]=a+1
+                frontier.append(c.south)
+
+            if visited.count(c.west)==0 and c.west!=None and c.links.get(c.west)==True:
+                visited.append(c.west)
+                self.marks[c.west]=a+1
+                frontier.append(c.west)
+
+            if visited.count(c.east)==0 and c.east!=None and c.links.get(c.east)==True:
+                visited.append(c.east)
+                self.marks[c.east]=a+1
+                frontier.append(c.east)
+
+            count=count+1
+        print("done markup in {0} steps".format(count))
+
             
     def farthest_cell(self):
         ''' Find the cell with the largest markup value, which will
@@ -275,7 +319,16 @@ class DijkstraMarkup(Markup):
             
             Returns: Tuple of (cell, distance)
         '''
-        pass
+        a=0
+        cell=None
+        for item in self.marks:
+            i=self.marks[item]
+            if i>a:
+                a=i
+                cell=item
+
+        return cell,a
+
 
 class ShortestPathMarkup(DijkstraMarkup):
     ''' Given a starting cell and a goal cell, create a Markup that will
@@ -604,6 +657,7 @@ def recursive_backtracker(grid, start_cell=None):
     stack.append(start_cell)
     visited.append(start_cell)
     grid.unlink_all()
+    count=0
     while(len(visited)<=grid.size()):
         if len(visited)==grid.size():
             #检查是否有重复
@@ -663,5 +717,6 @@ def recursive_backtracker(grid, start_cell=None):
             print("error")
 
         i=len(stack)-1
-    print("finish")
+        count=count+1
+    print("finished recursive algorithm in {0} steps".format(count))
 
